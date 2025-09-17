@@ -1,0 +1,54 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+# ----------------------------
+# 1. Create DataFrame
+# ----------------------------
+data = {
+    "Name": ["Ali", "Ahmed", "Hassan", "Usman", "Bilal", "Omar", "Zain"],
+    "Physics": [78, 85, 67, 90, 72, 88, 95],
+    "Computer": [82, 79, 88, 92, 75, 85, 89],
+    "Math": [91, 84, 76, 89, 80, 95, 87]
+}
+
+df = pd.DataFrame(data)
+df["Total"] = df[["Physics", "Computer", "Math"]].sum(axis=1)
+
+print(df)
+
+# ----------------------------
+# 2. Line Chart (Name vs Total Marks)
+# ----------------------------
+plt.figure(figsize=(8,5))
+plt.plot(df["Name"], df["Total"], marker="o", color="b", linewidth=2)
+plt.title("Total Marks of Students", fontsize=14)
+plt.xlabel("Student Name")
+plt.ylabel("Total Marks")
+plt.grid(True, linestyle="--", alpha=0.6)
+plt.show()
+
+# ----------------------------
+# 3. Bar Chart (Name vs Subject Marks)
+# ----------------------------
+df.set_index("Name")[["Physics", "Computer", "Math"]].plot(
+    kind="bar", figsize=(10,6), edgecolor="black"
+)
+plt.title("Marks in Physics, Computer, and Math", fontsize=14)
+plt.ylabel("Marks")
+plt.xlabel("Student Name")
+plt.show()
+
+# ----------------------------
+# 4. Pie Chart (Marks of 1 student in 3 subjects)
+# Example: First student (Ali)
+# ----------------------------
+student = df.iloc[0]  # first student Ali
+marks = [student["Physics"], student["Computer"], student["Math"]]
+subjects = ["Physics", "Computer", "Math"]
+
+plt.figure(figsize=(6,6))
+plt.pie(marks, labels=subjects, autopct="%1.1f%%", startangle=90,
+        colors=["#ff9999","#66b3ff","#99ff99"], shadow=True)
+plt.title(f"Marks Distribution of {student['Name']}", fontsize=14)
+plt.show()
